@@ -35,6 +35,9 @@ class List {
 
         void swapData(T&, T&);
 
+        void sortDataMerge(const int&, const int&);
+        void sortDataQuick(const int&, const int&);
+
     public:
         List();
         List(List<T, SIZE>&);
@@ -65,6 +68,9 @@ class List {
         void sortDataSelect();
         void sortDataShell();
 
+        void sortDataMerge();
+        void sortDataQuick();
+
         void deleteAll();
 
         List<T, SIZE>& operator = (const List<T, SIZE>&);
@@ -93,6 +99,88 @@ void List<T, SIZE>::swapData(T &a, T &b) {
     T aux(a);
     a = b;
     b = aux;
+    }
+
+template<class T, int SIZE>
+void List<T, SIZE>::sortDataMerge(const int& left, const int& right) {
+
+    ///Criterio de paro
+    if ( left >= right ) {
+        return;
+        }
+
+    ///Punto medio
+    int m((left + right) / 2);
+
+    ///Divide y venceras
+    sortDataMerge(left, m);
+    sortDataMerge(m + 1, right);
+
+    ///Arreglo auxiliar
+    static T tmpData[SIZE];
+    for (int i(left); i <= right; i++) {
+        tmpData[i] = data[i];
+        }
+
+    ///Intercalacion
+    int i(left), j(m + 1), x(left);
+
+    while ( i <= m and j <= right ) {
+
+        while ( i <= m and tmpData[i] <= tmpData[j] ) {
+            data[x++] = tmpData[i++];
+            }
+
+        if ( i <= m ) {
+            while ( j <= right and tmpData[j] <= tmpData[i] ) {
+                data[x++] = tmpData[j++];
+                }
+            }
+        }
+
+    while ( i <= m ) {
+        data[x++] = tmpData[i++];
+        }
+
+    while ( j <= right ) {
+        data[x++] = tmpData[j++];
+        }
+
+    }
+
+template<class T, int SIZE>
+void List<T, SIZE>::sortDataQuick(const int& left, const int& right) {
+    ///Criterio de paro
+    if ( left >= right ) {
+        return;
+        }
+
+    ///Separacion
+    int i(left), j(right);
+
+    ///Algoritmo de intercambio
+    while ( i < j ) {
+
+        while ( i < j and data[i] <= data[right] ) {
+            i++;
+            }
+
+        while ( i < j and data[j] >= data[right] ) {
+            j--;
+            }
+
+        if ( i != j ) {
+            swapData( data[i], data[j] );
+            }
+        }
+
+    if ( i != right ) {
+        swapData( data[i], data[right] );
+        }
+
+    //Divide y venceras
+    sortDataQuick( left, i - 1 );
+    sortDataQuick( i + 1, right );
     }
 
 template<class T, int SIZE>
@@ -352,6 +440,17 @@ void List<T, SIZE>::sortDataShell() {
         gap = gapSeries[++gapPos];
         }
     }
+
+template<class T, int SIZE>
+void List<T, SIZE>::sortDataMerge() {
+    sortDataMerge(0, last);
+    }
+
+template<class T, int SIZE>
+void List<T, SIZE>::sortDataQuick() {
+    sortDataQuick(0, last);
+    }
+
 
 template<class T, int SIZE>
 void List<T, SIZE>::deleteAll() {

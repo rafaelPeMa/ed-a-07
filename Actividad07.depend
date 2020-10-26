@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1603744624 source:c:\users\rafae\documents\escuela\cucei\3°\ed\semana 7\actividad07\main.cpp
+	<iostream>
+	<random>
+	<chrono>
+	<functional>
+	"list.h"
+
+1603744697 c:\users\rafae\documents\escuela\cucei\3°\ed\semana 7\actividad07\list.h
+	<string>
+
